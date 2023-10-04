@@ -6,8 +6,10 @@ import io.thp.pyotherside 1.5
 
 WebViewPage {
 
-    property alias url: webview.url
+    allowedOrientations: Orientation.All
 
+    property alias url: webview.url
+    
     Component.onCompleted: {
         WebEngineSettings.setPreference(
                     "security.fileuri.strict_origin_policy", false,
