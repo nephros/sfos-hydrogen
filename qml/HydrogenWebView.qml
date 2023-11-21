@@ -89,7 +89,25 @@ WebViewFlickable {
         WebEngineSettings.setPreference(
             "security.fileuri.strict_origin_policy", false,
             WebEngineSettings.BoolPref)
-
+        // enable/disable disk caching:
+        WebEngineSettings.setPreference( "network.http.use-cache",       true, WebEngineSettings.BoolPref)
+        WebEngineSettings.setPreference( "browser.cache.disk_cache_ssl", true, WebEngineSettings.BoolPref)
+        WebEngineSettings.setPreference( "browser.cache.disk.enable",    true, WebEngineSettings.BoolPref)
+        WebEngineSettings.setPreference( "browser.cache.disk.smart_size.enabled", true, WebEngineSettings.BoolPref)
+        // enable/disable memory caching:
+        WebEngineSettings.setPreference( "browser.cache.memory.enable",  true, WebEngineSettings.BoolPref)
+        // cache cleaning on shutdown:
+        WebEngineSettings.setPreference( "privacy.sanitize.sanitizeOnShutdown", true, WebEngineSettings.BoolPref)
+        WebEngineSettings.setPreference( "privacy.clearOnShutdown.cache",       true, WebEngineSettings.BoolPref)
+        WebEngineSettings.setPreference( "privacy.clearOnShutdown.cookies",     false, WebEngineSettings.BoolPref)
+        WebEngineSettings.setPreference( "privacy.clearOnShutdown.downloads",   false, WebEngineSettings.BoolPref)
+        WebEngineSettings.setPreference( "privacy.clearOnShutdown.formdata",    true, WebEngineSettings.BoolPref)
+        WebEngineSettings.setPreference( "privacy.clearOnShutdown.history",     true, WebEngineSettings.BoolPref)
+        WebEngineSettings.setPreference( "privacy.clearOnShutdown.offlineApps", false, WebEngineSettings.BoolPref)
+        WebEngineSettings.setPreference( "privacy.clearOnShutdown.sessions",    false, WebEngineSettings.BoolPref)
+        WebEngineSettings.setPreference( "privacy.clearOnShutdown.siteSettings",false, WebEngineSettings.BoolPref)
+        // privacy:
+        WebEngineSettings.setPreference( "toolkit.telemetry.enabled", false, WebEngineSettings.BoolPref)
         /*** User Settings ***/
         // Zoom/scale
         WebEngineSettings.pixelRatio        = (wvConfig.zoom*Theme.pixelRatio*10)/10.0
