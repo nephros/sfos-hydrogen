@@ -1,8 +1,14 @@
+// Copyright © 2021-2023 thigg
+// Copyright © 2023 The SailfishOS Hackathon Budapest Team
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import Sailfish.WebView 1.0
 import Sailfish.WebEngine 1.0
 import Nemo.DBus 2.0
+import Nemo.Configuration 1.0
 import io.thp.pyotherside 1.5
 import "cover"
 import "components"
@@ -141,6 +147,29 @@ ApplicationWindow {
         Component.onDestruction: {
             console.info("Unregistering D-Bus service %1".arg(service) )
         }
+    }
+
+    // application settings:
+    property alias appConfig: appConfig
+    property alias wvConfig:  wvConfig
+    ConfigurationGroup  {
+        id: localSettings
+        path: "/org/github/hydrogen-sailfishos"
+    }
+    ConfigurationGroup  {
+        id: appConfig
+        scope: localSettings
+        path:  "app"
+        property bool showNotifications: true
+        property bool stickyNotifications: false
+    }
+    ConfigurationGroup  {
+        id: wvConfig
+        scope: localSettings
+        path:  "webview"
+        property double zoom: 1.0
+        property int ambienceMode: 2 //WebEngineSettings.FollowsAmbience
+        property int memCache: 11 // automatic
     }
 }
 

@@ -1,3 +1,8 @@
+// Copyright © 2021-2023 thigg
+// Copyright © 2023 The SailfishOS Hackathon Budapest Team
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import Sailfish.WebView 1.0
@@ -13,7 +18,11 @@ WebViewPage {
 
         PullDownMenu {
             MenuItem{
-                text: qsTr('Settings')
+                text: qsTr('App Settings')
+                onClicked: pageStack.push(Qt.resolvedUrl("pages/AppSettingsPage.qml"))
+            }
+            MenuItem{
+                text: qsTr('Hydrogen Settings')
                 onClicked: hydrogenwebview.enterSettingsView()
             }
         }
