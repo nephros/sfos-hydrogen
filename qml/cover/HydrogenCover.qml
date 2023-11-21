@@ -12,6 +12,7 @@ CoverBackground {
         target: app
         onCoverMessagesChanged: messageView.model = app.coverMessages
     }
+
     Icon {
         z: -1
         source: Qt.resolvedUrl("./hydrogen.svg" + "?" + logoColor)
@@ -28,39 +29,38 @@ CoverBackground {
         text: qsTr("Hydrogen")
         x: (parent.width  - (width +  Theme.paddingLarge))
         y: visible ? (parent.height - (height + Theme.paddingSmall*3)) : parent.height + height
+        //y: visible ? (Theme.paddingSmall*3) : parent.height + height
         font.pixelSize: Theme.fontSizeLarge
         color:   visible ? Theme.secondaryColor : hylightColor
         Behavior on color { ColorAnimation { duration: 2400 } }
-        Behavior on y { PropertyAnimation { duration: 2400 } }
+        //Behavior on y { PropertyAnimation { duration: 800 ; easing.type: Easing.OutQuad} }
+        Behavior on y { PropertyAnimation { duration: 1600 ; easing.type: Easing.OutQuad} }
     }
-    Label { id: titleLabel
-        visible: app.coverTitle.length > 0
-        text: app.coverTitle
+    Column { id: messageView
+        property alias model: rep.model
+        visible: titleLabel.length > 0
+        x: visible ? Theme.horizontalPageMargin : parent.width + width
+        y: nameLabel.height+Theme.paddingSmall
+        Behavior on x { PropertyAnimation { duration: 800 ; easing.type: Easing.OutQuad} }
         width: parent.width - Theme.horizontalPageMargin
-        x: Theme.horizontalPageMargin
-        //y: Theme.paddingMedium
-        anchors.top: label.bottom
-        font.pixelSize: Theme.fontSizeExtraSmall
-        color: Theme.highlightColor
-        wrapMode: Text.Wrap
-    }
-    ColumnView { id: messageView
-        x: Theme.horizontalPageMargin
-        width: parent.width - Theme.horizontalPageMargin
-        height: parent.height - coverAction.height
-        anchors.top: titleLabel.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-        visible: app.coverMessages.length > 0
-        opacity: visible ? 1.0 : 0.4
-        Behavior on opacity { FadeAnimator { } }
-
-        itemHeight: Theme.itemSizeSmall/2
-        delegate: Label {
-            text: modelData
-            font.pixelSize: Theme.fontSizeTiny*0.8
-            wrapMode: Text.NoWrap
-            truncationMode: TruncationMode.Fade
-            width: messageView.width
+        height: parent.height - (coverAction.height + nameLabel.height)
+        //anchors.top: nameLabel.bottom
+        //anchors.horizontalCenter: parent.horizontalCenter
+        Label { id: titleLabel
+            text: (app.coverTitle) ? app.coverTitle : ""
+            width: parent.width
+            font.pixelSize: Theme.fontSizeExtraSmall
+            color: Theme.highlightColor
+            wrapMode: Text.Wrap
+        }
+        Repeater { id: rep
+            delegate: Label {
+                text: modelData
+                font.pixelSize: Theme.fontSizeTiny*0.8
+                wrapMode: Text.NoWrap
+                truncationMode: TruncationMode.Fade
+                width: ListView.view.width
+            }
         }
     }
 
