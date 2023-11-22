@@ -4,8 +4,9 @@
 
 import QtQuick 2.6
 import Sailfish.Silica 1.0
+import Nemo.FileManager 1.0
 
-Page {
+Page { id: page
     SilicaFlickable{
         anchors.fill: parent
         contentHeight: col.height
@@ -134,6 +135,39 @@ Page {
                     }
                 }
                 onReleased: wvConfig.memCache = Math.round(sliderValue)
+            }
+            SectionHeader {
+                width: parent.width
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("Advanced")
+            }
+            ButtonLayout {
+                SecondaryButton {
+                    text: qsTr("Delete Cache")
+                    icon.source: "image://theme/icon-m-delete"
+                    onClicked: {
+                        const cache = StandardPaths.cache + "/.mozilla/cache2"
+                        const appcache = StandardPaths.cache + "/.mozilla/OfflineCache"
+                        console.debug("Cache dir:",cache)
+                        Remorse.popupAction(page, qsTr("Deleted"), function(){
+                            FileEngine.deleteFiles(cache, true)
+                            FileEngine.deleteFiles(appcache, true)
+                            Qt.quit()
+                        })
+                    }
+                }
+                SecondaryButton {
+                    text: qsTr("Delete Everything")
+                    icon.source: "image://theme/icon-m-delete"
+                    onClicked: {
+                        const cache = StandardPaths.cache + "/.mozilla"
+                        console.debug("Cache dir:",cache)
+                        Remorse.popupAction(page, qsTr("Deleted"), function(){
+                            FileEngine.deleteFiles(cache, true)
+                            Qt.quit()
+                        })
+                    }
+                }
             }
         }
     }
