@@ -167,10 +167,10 @@ ApplicationWindow {
         id: wvConfig
         scope: localSettings
         path:  "webview"
-        property double zoom: 1.0
+        property double zoom: 2.0
         property int ambienceMode: 2 //WebEngineSettings.FollowsAmbience
         property int memCache: 11 // automatic
     }
 }
 
-// vim: filetype=javascript expandtab ts=4 sw=4 st=4
+// vim: ft=javascript expandtab ts=4 sw=4 st=4

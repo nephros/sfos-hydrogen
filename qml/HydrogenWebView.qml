@@ -21,6 +21,19 @@ WebViewFlickable {
         webview.url = settingsURL
     }
 
+    quickScroll: false
+    flickableDirection: Flickable.VerticalFlick
+    PullDownMenu {
+        MenuItem{
+            text: qsTr('App Settings')
+            onClicked: pageStack.push(Qt.resolvedUrl("pages/AppSettingsPage.qml"))
+        }
+        MenuItem{
+            text: qsTr('Hydrogen Settings')
+            onClicked: enterSettingsView()
+        }
+    }
+
     Private.VirtualKeyboardObserver {
         id: virtualKeyboardObserver
         active: webview.enabled
@@ -31,7 +44,7 @@ WebViewFlickable {
             when: virtualKeyboardObserver.opened && webview.enabled
             PropertyChanges {
                 target: webview
-                viewportHeight: isLandscape ? Screen.height - virtualKeyboardObserver.imSize
+                viewportHeight: isPortrait ? Screen.height - virtualKeyboardObserver.imSize
                                             : Screen.width - Qt.inputMethod.keyboardRectangle.width
             }
         }
