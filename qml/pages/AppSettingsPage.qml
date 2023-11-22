@@ -135,6 +135,14 @@ Page {
                 }
                 onReleased: wvConfig.memCache = Math.round(sliderValue)
             }
+            TextSwitch{
+                width: parent.width
+                anchors.horizontalCenter: parent.horizontalCenter
+                checked: appConfig.debug
+                automaticCheck: true
+                text: qsTr("Show Dehug Toolbar")
+                onClicked: appConfig.debug = checked
+            }
         }
     }
 }

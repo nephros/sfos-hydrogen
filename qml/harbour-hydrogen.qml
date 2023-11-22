@@ -6,6 +6,7 @@ import Nemo.DBus 2.0
 import Nemo.Configuration 1.0
 import io.thp.pyotherside 1.5
 import "cover"
+import "components"
 
 ApplicationWindow {
     id: app
@@ -43,6 +44,7 @@ ApplicationWindow {
                 var rand = Math.floor(Math.random() * (1<<20))
                 webviewPage.hydrogenwebview.webView.url = Qt.resolvedUrl(
                             "http://localhost:" + serverPort + "/index.html?rand=" + rand)
+                panel.serverPort = serverPort
             })
             setHandler('log', function (newvalue) {
                 console.debug(newvalue)
@@ -128,6 +130,7 @@ ApplicationWindow {
         path:  "app"
         property bool showNotifications: true
         property bool stickyNotifications: false
+        property bool debug: false
     }
     ConfigurationGroup  {
         id: wvConfig
@@ -136,6 +139,12 @@ ApplicationWindow {
         property double zoom: 2.0
         property int ambienceMode: 2 //WebEngineSettings.FollowsAmbience
         property int memCache: 11 // automatic
+    }
+    // apparently, a DockedPanel can be in an ApplicationWindow, but we must
+    // bind bottomMargin: panel.visibleSize
+    bottomMargin: panel.visibleSize
+    DebugPanel { id: panel;
+        open: appConfig.debug
     }
 }
 

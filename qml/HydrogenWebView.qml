@@ -71,7 +71,7 @@ WebViewFlickable {
                 break
             case "embed:linkclicked":
                 var url = '/^http:\/\/localhost/'
-                if (!data.uri.match('http://localhost'))
+                if ((!data.uri.match('http://localhost')) && (!data.uri.match('^about:')))
                     Qt.openUrlExternally(data['uri'])
                 break
             default:
