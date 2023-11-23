@@ -7,13 +7,13 @@ import Sailfish.Silica 1.0
 DockedPanel { id: root
 
     property int serverPort
-    ListModel {id: mozlinks
-        ListElement { title: 'moz:c'; mozurl: "about:cache" }
-        ListElement { title: 'moz:m'; mozurl: "about:memory" }
-        ListElement { title: 'moz:p'; mozurl: "about:performance" }
-        ListElement { title: 'moz:n'; mozurl: "about:networking" }
-        ListElement { title: 'moz:sw'; mozurl: "about:serviceworkers" }
-        ListElement { title: 'moz:rtc'; mozurl: "about:webrtc" }
+    ListModel {id: links
+        ListElement { title: 'moz:cac'; newurl: "about:cache" }
+        ListElement { title: 'moz:mem'; newurl: "about:memory" }
+        ListElement { title: 'moz:prf'; newurl: "about:performance" }
+        ListElement { title: 'moz:net'; newurl: "about:networking" }
+        ListElement { title: 'moz:srw'; newurl: "about:serviceworkers" }
+        ListElement { title: 'moz:rtc'; newurl: "about:webrtc" }
     }
     dock: Dock.Bottom
     modal: false
@@ -34,13 +34,13 @@ DockedPanel { id: root
             onClicked: webviewPage.hydrogenwebview.webView.goBack()
         }
         Repeater {
-            model: mozlinks
+            model: links
             delegate: Button {
                 anchors.verticalCenter: parent.verticalCenter
                 preferredWidth: Theme.buttonWidthTiny
                 text: title
                 onClicked: {
-                    webviewPage.hydrogenwebview.webView.url=mozurl
+                    webviewPage.hydrogenwebview.webView.url=newurl
                 }
             }
         }

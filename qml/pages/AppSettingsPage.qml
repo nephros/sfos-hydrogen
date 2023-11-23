@@ -146,7 +146,8 @@ Page { id: page
                 anchors.horizontalCenter: parent.horizontalCenter
                 checked: appConfig.debug
                 automaticCheck: true
-                text: qsTr("Show Dehug Toolbar")
+                text: qsTr("Show Debug Toolbar")
+                description: qsTr("Enable Access to various internals.)
                 onClicked: appConfig.debug = checked
             }
             ButtonLayout {
