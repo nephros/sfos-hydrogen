@@ -2,6 +2,31 @@ import QtQuick 2.2      // not 2.0, because Instantiator
 import Sailfish.Silica 1.0
 import Nemo.Notifications 1.0
 
+/*
+ * This is a rather overly complicated wrapper around the Nemo.Notifications plugin.
+ *
+ * Basic mode of operation internally is that we use a simple ListModel
+ * containting UIDs, and feed that to a QML Instatiator (the "factory").
+ *
+ * factory will create Notification objects for us, which we either fatten up
+ * with properties, or publish as-is.
+ *
+ * Users (code) can either use the quick* functions, or the fullblown
+ * addNotification() and updateNotification() functions. Users of addNotification()
+ * are expected to record the returned message UID if they want to later handle
+ * their published message.
+ *
+ * Complex notifications should be possible by using something like:
+ *     const hold = true
+ *     const m_id = addNotification( [...], hold)
+ *     var new_props = {
+ *       // set any Notification properties here
+ *       "icon": "image://theme/icon-m-warning"
+ *     }
+ *     updateNotification(m_id, new_props, hold)
+ *     publishNotification(m_id)
+*/
+
 Item { id: root
     /*! ListModel to serve as an input to the factory */
     property alias messages: factory.model
@@ -106,8 +131,10 @@ Item { id: root
 
     /*! Updates Notification contents
      * uid is the internal uid from the "messages" model
-     * parameters is an object having the updated parameters
-     * unless hold is true, changes will be published immediately
+     * params is an object having the updated parameters
+     *
+     * If hold is true, changes will be published immediately, otherwise
+     * publishNotification() must be called for them to appear.
      */
     function updateNotification(uid, parms, hold) {
         for (var i = 0; i<messages.count; i++) {
@@ -162,6 +189,11 @@ Item { id: root
         }
     }
 
+    /*! Template Notification for the Instantiator.
+     *
+     * Sets up all the message boilerplate, as well as remote "actions" to be
+     * triggered when the user iteracts with a published notification.
+     */
     Component { id: template; Notification {
          property string internalId
          category: "im.received"
