@@ -9,6 +9,9 @@ Item { id: root
     /*! Emitted when a Notification hsa been published */
     signal messagePublished(string msgid)
 
+    /*! Holds the ID of the first published message so we can do "sticky" notifications */
+    property int stickyId: 0
+
     /*!
      * Creates and publishes a new notification.
      * Convenience function to quickly publish a notification.
@@ -86,8 +89,16 @@ Item { id: root
             if (o.mid === uid) {
                 var n = factory.objectAt(i)
                 console.assert(n, "BUG: retrieved an invalid object from factory.")
+                if (appConfig.stickyNotifications && (stickyId != 0)) {
+                    n.replacedId = stickyId
+                }
                 console.debug("Publishing notification", uid)
                 n.publish()
+                if (appConfig.stickyNotifications && (stickyId == 0)) {
+                    // after publishing, record the replacesId so we can overwrite it
+                    stickyId = n.replacedId
+                    console.assert(stickyId != 0, "WARNING: Couldn't get a valid replacesId to store.")
+                }
                 messagePublished(uid)
             }
         }
